@@ -26,4 +26,3 @@ def login():
     records = list(cursor.fetchall())
 
     return render_template('account.html', full_name=records[0][1])
-
