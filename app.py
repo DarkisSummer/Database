@@ -19,6 +19,9 @@ def login():
         if request.form.get("login"):
             username = request.form.get('username')
             password = request.form.get('password')
+            if username == '' or username.count(' ') == len(username) or password == '':
+                attention = 'Wrong username or password, try again.'
+                return render_template('login.html', attention=attention)
             cursor.execute("SELECT * FROM service.users WHERE login=%s AND password=%s", (str(username), str(password)))
             records = list(cursor.fetchall())
             return render_template('account.html', full_name=records[0][1])
@@ -34,11 +37,12 @@ def registration():
         name = request.form.get('name')
         login = request.form.get('login')
         password = request.form.get('password')
-
+        if name == '' or login == '' or password == '':
+            attent = 'Something went wrong, try again.'
+            return render_template('registration.html', attent=attent)
         cursor.execute('INSERT INTO service.users (full_name, login, password) VALUES (%s, %s, %s);',
                        (str(name), str(login), str(password)))
         conn.commit()
-
         return redirect('/login/')
 
     return render_template('registration.html')
