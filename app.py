@@ -19,8 +19,8 @@ def login():
         if request.form.get("login"):
             username = request.form.get('username')
             password = request.form.get('password')
-            if username == '' or username.count(' ') == len(username) or password == '':
-                attention = 'Wrong username or password, try again.'
+            if username == '' or password == '':
+                attention = 'Wrong username and/or password, try again.'
                 return render_template('login.html', attention=attention)
             cursor.execute("SELECT * FROM service.users WHERE login=%s AND password=%s", (str(username), str(password)))
             records = list(cursor.fetchall())
